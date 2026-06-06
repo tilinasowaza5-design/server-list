@@ -46,13 +46,15 @@ jobs:
 
       - name: Probe servers
         run: |
+          set -o pipefail
           ./scripts/probe.py \
             --query ./.xash3d-master/xash3d-query \
             --sources ./servers \
             --output ./output \
             --tries 4 \
             --timeout 2 \
-            --grace-hours 48
+            --grace-hours 48 \
+            2>&1 | tee ./output/probe.log
 
       - name: Add stub html
         run: |
