@@ -314,7 +314,10 @@ def main():
 				continue
 
 			age = hours_since(prev.get("last_seen"), now)
-			if age <= args.grace_hours:
+			if entry.get("force"):
+				live_addrs.append((address, proto))
+				print(f"  [F] {gamedir:>12}  {address}  silent now, published anyway (force)", flush=True)
+			elif age <= args.grace_hours:
 				live_addrs.append((address, proto))
 				grace_kept += 1
 				print(f"  [~] {gamedir:>12}  {address}  silent now, last seen {age:.1f}h ago (grace)", flush=True)
